@@ -1,0 +1,185 @@
+[33mcommit 61b5a1cad6534907c6671d4fc736eb1388c3636d[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Aminetou Tekrour <amine.tekrour@gmail.com>
+Date:   Wed May 7 19:12:56 2025 +0000
+
+    Finish github library
+
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b46b03c[m
+[1m--- /dev/null[m
+[1m+++ b/.gitignore[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mdb.sqilte3[m
+\ No newline at end of file[m
+[1mdiff --git a/course4_proj/__pycache__/__init__.cpython-36.pyc b/course4_proj/__pycache__/__init__.cpython-36.pyc[m
+[1mindex 0d64963..3856806 100644[m
+Binary files a/course4_proj/__pycache__/__init__.cpython-36.pyc and b/course4_proj/__pycache__/__init__.cpython-36.pyc differ
+[1mdiff --git a/course4_proj/__pycache__/settings.cpython-36.pyc b/course4_proj/__pycache__/settings.cpython-36.pyc[m
+[1mindex 7bbc7a4..700911a 100644[m
+Binary files a/course4_proj/__pycache__/settings.cpython-36.pyc and b/course4_proj/__pycache__/settings.cpython-36.pyc differ
+[1mdiff --git a/course4_proj/__pycache__/urls.cpython-36.pyc b/course4_proj/__pycache__/urls.cpython-36.pyc[m
+[1mindex 0849dab..cee4636 100644[m
+Binary files a/course4_proj/__pycache__/urls.cpython-36.pyc and b/course4_proj/__pycache__/urls.cpython-36.pyc differ
+[1mdiff --git a/course4_proj/__pycache__/wsgi.cpython-36.pyc b/course4_proj/__pycache__/wsgi.cpython-36.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..0f91252[m
+Binary files /dev/null and b/course4_proj/__pycache__/wsgi.cpython-36.pyc differ
+[1mdiff --git a/course4_proj/settings.py b/course4_proj/settings.py[m
+[1mindex 3ad98ba..4395207 100644[m
+[1m--- a/course4_proj/settings.py[m
+[1m+++ b/course4_proj/settings.py[m
+[36m@@ -52,6 +52,7 @@[m [mclass Dev(Configuration):[m
+             'django.contrib.messages',[m
+             'django.contrib.staticfiles',[m
+             'movies',[m
+[32m+[m[32m            'gh',[m
+         ][m
+ [m
+         MIDDLEWARE = [[m
+[1mdiff --git a/course4_proj/urls.py b/course4_proj/urls.py[m
+[1mindex d1845d5..dca8e91 100644[m
+[1m--- a/course4_proj/urls.py[m
+[1m+++ b/course4_proj/urls.py[m
+[36m@@ -15,7 +15,9 @@[m [mIncluding another URLconf[m
+ """[m
+ from django.contrib import admin[m
+ from django.urls import path[m
+[32m+[m[32mimport gh.views[m
+ [m
+ urlpatterns = [[m
+     path('admin/', admin.site.urls),[m
+[32m+[m[32m    path("", gh.views.index),[m
+ ][m
+[1mdiff --git a/db.sqlite3 b/db.sqlite3[m
+[1mindex 8b9a83b..ca075df 100644[m
+Binary files a/db.sqlite3 and b/db.sqlite3 differ
+[1mdiff --git a/gh/__init__.py b/gh/__init__.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e69de29[m
+[1mdiff --git a/gh/__pycache__/__init__.cpython-36.pyc b/gh/__pycache__/__init__.cpython-36.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..1755b02[m
+Binary files /dev/null and b/gh/__pycache__/__init__.cpython-36.pyc differ
+[1mdiff --git a/gh/__pycache__/admin.cpython-36.pyc b/gh/__pycache__/admin.cpython-36.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..a6ba301[m
+Binary files /dev/null and b/gh/__pycache__/admin.cpython-36.pyc differ
+[1mdiff --git a/gh/__pycache__/apps.cpython-36.pyc b/gh/__pycache__/apps.cpython-36.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..2aca2be[m
+Binary files /dev/null and b/gh/__pycache__/apps.cpython-36.pyc differ
+[1mdiff --git a/gh/__pycache__/models.cpython-36.pyc b/gh/__pycache__/models.cpython-36.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..921ad83[m
+Binary files /dev/null and b/gh/__pycache__/models.cpython-36.pyc differ
+[1mdiff --git a/gh/__pycache__/views.cpython-36.pyc b/gh/__pycache__/views.cpython-36.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..a559c88[m
+Binary files /dev/null and b/gh/__pycache__/views.cpython-36.pyc differ
+[1mdiff --git a/gh/admin.py b/gh/admin.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..862f3d5[m
+[1m--- /dev/null[m
+[1m+++ b/gh/admin.py[m
+[36m@@ -0,0 +1,7 @@[m
+[32m+[m[32mfrom django.contrib import admin[m
+[32m+[m
+[32m+[m[32mfrom gh.models import Profile[m
+[32m+[m
+[32m+[m[32m# Register your models here.[m
+[32m+[m
+[32m+[m[32madmin.site.register(Profile)[m
+\ No newline at end of file[m
+[1mdiff --git a/gh/apps.py b/gh/apps.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..c2f8913[m
+[1m--- /dev/null[m
+[1m+++ b/gh/apps.py[m
+[36m@@ -0,0 +1,6 @@[m
+[32m+[m[32mfrom django.apps import AppConfig[m
+[32m+[m
+[32m+[m
+[32m+[m[32mclass GhConfig(AppConfig):[m
+[32m+[m[32m    default_auto_field = 'django.db.models.BigAutoField'[m
+[32m+[m[32m    name = 'gh'[m
+[1mdiff --git a/gh/migrations/0001_initial.py b/gh/migrations/0001_initial.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..62ca1c5[m
+[1m--- /dev/null[m
+[1m+++ b/gh/migrations/0001_initial.py[m
+[36m@@ -0,0 +1,25 @@[m
+[32m+[m[32m# Generated by Django 3.2.6 on 2025-05-07 19:07[m
+[32m+[m
+[32m+[m[32mfrom django.conf import settings[m
+[32m+[m[32mfrom django.db import migrations, models[m
+[32m+[m[32mimport django.db.models.deletion[m
+[32m+[m
+[32m+[m
+[32m+[m[32mclass Migration(migrations.Migration):[m
+[32m+[m
+[32m+[m[32m    initial = True[m
+[32m+[m
+[32m+[m[32m    dependencies = [[m
+[32m+[m[32m        migrations.swappable_dependency(settings.AUTH_USER_MODEL),[m
+[32m+[m[32m    ][m
+[32m+[m
+[32m+[m[32m    operations = [[m
+[32m+[m[32m        migrations.CreateModel([m
+[32m+[m[32m            name='Profile',[m
+[32m+[m[32m            fields=[[m
+[32m+[m[32m                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),[m
+[32m+[m[32m                ('token', models.TextField()),[m
+[32m+[m[32m                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),[m
+[32m+[m[32m            ],[m
+[32m+[m[32m        ),[m
+[32m+[m[32m    ][m
+[1mdiff --git a/gh/migrations/__init__.py b/gh/migrations/__init__.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e69de29[m
+[1mdiff --git a/gh/migrations/__pycache__/0001_initial.cpython-36.pyc b/gh/migrations/__pycache__/0001_initial.cpython-36.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..d1142dd[m
+Binary files /dev/null and b/gh/migrations/__pycache__/0001_initial.cpython-36.pyc differ
+[1mdiff --git a/gh/migrations/__pycache__/__init__.cpython-36.pyc b/gh/migrations/__pycache__/__init__.cpython-36.pyc[m
+[1mnew file mode 100644[m
+[1mindex 0000000..4a35012[m
+Binary files /dev/null and b/gh/migrations/__pycache__/__init__.cpython-36.pyc differ
+[1mdiff --git a/gh/models.py b/gh/models.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..5b52272[m
+[1m--- /dev/null[m
+[1m+++ b/gh/models.py[m
+[36m@@ -0,0 +1,11 @@[m
+[32m+[m[32mfrom django.contrib.auth import get_user_model[m
+[32m+[m[32mfrom django.db import models[m
+[32m+[m
+[32m+[m[32m# Create your models here.[m
+[32m+[m
+[32m+[m[32mclass Profile(models.Model):[m
+[32m+[m[32m    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)[m
+[32m+[m[32m    token = models.TextField()[m
+[32m+[m
+[32m+[m[32m    def __str__(self):[m
+[32m+[m[32m        return f"Profile for {self.user.username}"[m
+\ No newline at end of file[m
+[1mdiff --git a/gh/templates/index.html b/gh/templates/index.html[m
+[1mnew file mode 100644[m
+[1mindex 0000000..afb99fa[m
+[1m--- /dev/null[m
+[1m+++ b/gh/templates/index.html[m
+[36m@@ -0,0 +1,20 @@[m
+[32m+[m[32m<!doctype html>[m
+[32m+[m[32m<html lang="en">[m
+[32m+[m[32m<head>[m
+[32m+[m[32m    <meta charset="UTF-8">[m
+[32m+[m[32m    <meta name="viewport"[m
+[32m+[m[32m          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">[m
+[32m+[m[32m    <meta http-equiv="X-UA-Compatible" content="ie=edge">[m
+[32m+[m[32m    <title>Repositories</title>[m
+[32m+[m[32m</head>[m
+[32m+[m[32m<body>[m
+[32m+[m[32m<h2>{{ github_user.name }} has access to:</h2>[m
+[32m+[m[32m<ul>[m
+[32m+[m[32m    {% for repository in github_user.get_repos %}[m
+[32m+[m[32m        
